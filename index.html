@@ -1,0 +1,275 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Guntur:wght@300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
+
+  <!-- Option 1 - File uploaded using server.streamFile(file, contentType); -->
+  <script src="pureknob.js"></script>
+
+  <!-- Option 2. - Host it on GitHub and use service like jsdelivr.net -->
+  <!-- <script src="https://cdn.jsdelivr.net/gh/suszczyk/ESP8266-WiFi-Robot-Car@main/pureknob.js"></script> -->
+
+  <script type="text/javascript">
+    // Create meters, 165 x 165 px in size.
+    const humidity_meter = pureknob.createKnob(165, 165);
+    const temperature_meter = pureknob.createKnob(165, 165);
+    const sensor_meter = pureknob.createKnob(165, 165);
+    const noise_meter = pureknob.createKnob(165, 165);
+
+
+    function temperature_knob() {
+      // Set properties.
+      temperature_meter.setProperty("angleStart", -0.75 * Math.PI);
+      temperature_meter.setProperty("angleEnd", 0.75 * Math.PI);
+      temperature_meter.setProperty("colorFG", "#ed9d00");
+      temperature_meter.setProperty("trackWidth", 0.4);
+      temperature_meter.setProperty("valMin", 0);
+      temperature_meter.setProperty("valMax", 100);
+
+      temperature_meter.setValue(document.getElementById("temperature").innerHTML);
+      const node = temperature_meter.node();
+      const elem = document.getElementById("temp");
+      elem.appendChild(node);
+    }
+
+    function humidity_knob() {
+      // Set properties.
+      humidity_meter.setProperty("angleStart", -0.75 * Math.PI);
+      humidity_meter.setProperty("angleEnd", 0.75 * Math.PI);
+      humidity_meter.setProperty("colorFG", "#04c0f8");
+      humidity_meter.setProperty("trackWidth", 0.4);
+      humidity_meter.setProperty("valMin", 0);
+      humidity_meter.setProperty("valMax", 100);
+
+      humidity_meter.setValue(document.getElementById("humidity").innerHTML);
+      const node = humidity_meter.node();
+      const elem = document.getElementById("humi");
+      elem.appendChild(node);
+    }
+
+    function sensor_knob() {
+      // Set properties.
+      sensor_meter.setProperty("angleStart", -0.75 * Math.PI);
+      sensor_meter.setProperty("angleEnd", 0.75 * Math.PI);
+      sensor_meter.setProperty("colorFG", "#24c48e");
+      sensor_meter.setProperty("trackWidth", 0.4);
+      sensor_meter.setProperty("valMin", 0);
+      sensor_meter.setProperty("valMax", 1);
+
+      sensor_meter.setValue(document.getElementById("movement").innerHTML);
+      const node = sensor_meter.node();
+      const elem = document.getElementById("sens");
+      elem.appendChild(node);
+    }
+
+
+    function noise_knob() {
+      // Set properties.
+      noise_meter.setProperty("angleStart", -0.75 * Math.PI);
+      noise_meter.setProperty("angleEnd", 0.75 * Math.PI);
+      noise_meter.setProperty("colorFG", "#d3435c");
+      noise_meter.setProperty("trackWidth", 0.4);
+      noise_meter.setProperty("valMin", 0);
+      noise_meter.setProperty("valMax", 100);
+
+      noise_meter.setValue(document.getElementById("noise").innerHTML);
+      const node = noise_meter.node();
+      const elem = document.getElementById("nois");
+      elem.appendChild(node);
+    }
+    function ready() {
+      humidity_knob();
+      temperature_knob();
+      sensor_knob();
+      noise_knob();
+    }
+    document.addEventListener("DOMContentLoaded", ready, false);
+  </script>
+  <style>
+    body {
+      margin-top: 5%;
+      border: 3px;
+      background-color: #212227;
+      color: white;
+      font-family: "Hind Guntur", sans-serif;
+      height: 100vh;
+    }
+
+    .container {
+      position: relative;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .myrow {
+      height: 65px;
+
+    }
+
+    #buttons {
+      height: auto;
+      padding: 2%;
+
+    }
+
+    .button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #24c48e;
+      border: none;
+      color: black;
+      padding: 15px 42px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      font-weight: bold;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 30px;
+    }
+
+    #gauges {
+      margin-top: 5%;
+      pointer-events: none;
+    }
+
+    .gauge {
+      height: auto;
+      width: 50%;
+
+      float: left;
+
+    }
+
+    .gauge-row {
+      height: auto;
+      width: 100%;
+      display: inline-block;
+
+    }
+  </style>
+</head>
+
+<body onload="javascript:mc_init()">
+  <div class="container">
+    <div id="buttons">
+      <div class="row justify-content-center align-items-center myrow">
+        <div class="col-md-4 col-6 mycol">
+          <button class="button" id="FWD">FORWARD</button>
+        </div>
+      </div>
+
+      <div class="row justify-content-around align-items-center myrow">
+        <div class="col-md-4 col-5 mycol">
+          <button class="button" id="LFT">LEFT</button>
+        </div>
+        <div class="col-md-4 col-5 mycol">
+          <button class="button" id="RGT">RIGHT</button>
+        </div>
+      </div>
+
+      <div class="row justify-content-center align-items-center myrow">
+        <div class="col-md-4 col-6 mycol">
+          <button class="button" id="BWD">BACKWARD</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="gauges">
+      <div class="gauge-row">
+        <!-- Temperature -->
+        <div class="gauge">
+          <i class="fas fa-thermometer-half" style="color: #059e8a"></i>
+          <span class="dht-labels">&nbspTemperature&nbsp</span>
+          <span id="temperature">0.0</span>&nbsp
+          <span class="units">&deg;C</span>
+          <div id="temp"></div>
+        </div>
+
+        <!-- Humidity -->
+        <div class="gauge">
+          <i class="fas fa-tint" style="color: #00add6"></i>
+          <span class="dht-labels">&nbspHumidity&nbsp</span>
+          <span id="humidity">0</span>&nbsp
+          <span class="units">%</span>
+          <div id="humi"></div>
+        </div>
+
+      </div>
+
+      <!-- Sensor -->
+      <div class="gauge-row">
+        <div class="gauge">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true" style="color: #059e8a"></i>
+          <span class="dht-labels">&nbspMotion Sensor&nbsp</span>
+          <span id="movement">0</span>
+          <div id="sens"></div>
+        </div>
+
+        <!-- Noise -->
+        <div class="gauge">
+          <i class="fas fa-volume-up" style="color: #d3435c"></i>
+          <span class="dht-labels">&nbspNoise level&nbsp</span>
+          <span id="noise">0</span>&nbsp
+          <span class="units">%</span>
+          <div id="nois"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var socket;
+    function mc_init() {
+      // Initialiaze the websocket client
+      socket = new WebSocket("ws://" + window.location.hostname + ":81/");
+      var buttons = document.getElementsByTagName("button");
+      for (i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener("mousedown", move, true);
+        buttons[i].addEventListener("mouseup", stop, true);
+        buttons[i].addEventListener("touchstart", move, true);
+        buttons[i].addEventListener("touchend", stop, true);
+      }
+      socket.onmessage = function (event) {
+        // Receive the color data from the server
+        var data = JSON.parse(event.data);
+        console.log(data);
+
+        // Get sensor values
+        document.getElementById("humidity").innerHTML = data["humidity"];
+        document.getElementById("temperature").innerHTML = data["temperature"];
+        document.getElementById("movement").innerHTML = data["movement"];
+        document.getElementById("noise").innerHTML = data["noise"];
+
+        // Update knobs
+        humidity_knob();
+        temperature_knob();
+        sensor_knob();
+        noise_knob();
+      };
+    }
+    function move(e) {
+      e.preventDefault(); // Prevent hold to copy-paste menu pop-up on mobile!
+      var data = { direction: e.srcElement.id };
+      socket.send(JSON.stringify(data));
+      return false;
+    }
+    function stop() {
+      var data = { direction: "STP" };
+      socket.send(JSON.stringify(data));
+      return false;
+    }
+  </script>
+</body>
+
+</html>
