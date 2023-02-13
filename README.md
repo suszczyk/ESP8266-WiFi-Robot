@@ -1,8 +1,11 @@
 # ESP8266 WiFi Robot Car
 
 13.02.2023 r.
+
 Micro-controllers Programming
+
 Created by [Mateusz Suszczyk](https://twitter.com/mateuszsuszczyk)
+
 Watch the video demo! -> [link](https://www.youtube.com/watch?v=TINGj88mNsk)
 
 ![](images/car1_1.jpg)
